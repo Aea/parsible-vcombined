@@ -78,7 +78,7 @@ def process_integration(data):
         return
     
     # Skip Monitoring
-    if "Rackspace" in data["client"]:
+    if "Rackspace" in data.get("client", ""):
         return
     
     # Skip Non-Integration Items
