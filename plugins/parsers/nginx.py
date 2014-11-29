@@ -22,7 +22,3 @@ def parse_nginx(line):
                     continue
             result_set[k] = r.groupdict().pop(k)
     return result_set
-
-
-
-
