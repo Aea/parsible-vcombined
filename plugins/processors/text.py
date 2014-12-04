@@ -105,7 +105,7 @@ def process_html_paths(data):
         fp.close()
     
     # Skip non-html
-    if data.get("content_type") != "text/html":
+    if "text/html" in data.get("content_type", ""):
         return
     
     # Skip Invalid Codes
