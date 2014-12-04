@@ -89,6 +89,47 @@ def process_integration(data):
     _process_integration_all(data, code)
     _process_integration_error(data, code)
     
+@exceptional
+def process_html_paths(data):
+    path = "/var/log/parsible/html-unique.log"
+    
+    try:
+        cache = process_html_paths.cache
+    except AttributeError:
+        cache = process_html_paths.cache = {"urls": set([])}
+        setup(path)
+    
+        # Retrieve Data
+        fp = open(path, "r")
+        map(lambda x: cache["urls"].add(x.split("\t")[2]), fp.read().splitlines())
+        fp.close()
+    
+    # Skip non-html
+    if data.get("content_type") != "text/html":
+        return
+    
+    # Skip Invalid Codes
+    try:
+        code = int(data["response_code"])
+    except ValueError:
+        return
+    except KeyError:
+        return
+    
+    # Check Host
+    if "host" not in data:
+        print "Invalid Line", data
+        
+    if data["host"] not in ("www.clientchatlive.com", "clientchatlive.com"):
+        return
+                
+    url = "".join([data["host"], data["path"],])
+    
+    if url in cache["urls"]:
+        return
+    
+    cache["urls"].add(url)
+    write(path, "%d\t%s" % (code, url))
 
 def _process_integration_all(data, code):
     path = "/var/log/parsible/integration-unique.log"
