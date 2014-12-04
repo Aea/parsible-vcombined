@@ -1,7 +1,7 @@
 import re
 
 def parse_nginx(line):
-    regex = re.compile("(?P<ip_address>\S*)\s-\s(?P<requesting_user>\S*)\s\[(?P<timestamp>.*?)\]\s{1,2}\"(?P<method>\S*)\s*(?P<request>\S*)\s*(HTTP\/)*(?P<http_version>.*?)\"\s(?P<response_code>\d{3})\s(?P<size>\S*)\s\(\"(?P<content_type>\S*)\"\)\s\"(?P<referrer>[^\"]*)\"\s\"(?P<client>[^\"]*)\"\s\"\[(?P<host>.*?)\]\"")
+    regex = re.compile("(?P<ip_address>\S*)\s-\s(?P<requesting_user>\S*)\s\[(?P<timestamp>.*?)\]\s{1,2}\"(?P<method>\S*)\s*(?P<request>\S*)\s*(HTTP\/)*(?P<http_version>.*?)\"\s(?P<response_code>\d{3})\s(?P<size>\S*)\s\(\"(?P<content_type>.*)\"\)\s\"(?P<referrer>[^\"]*)\"\s\"(?P<client>[^\"]*)\"\s\"\[(?P<host>.*?)\]\"")
     r = regex.search(line)
     result_set = {}
     if r:
